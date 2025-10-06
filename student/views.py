@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.db.models import Q
 from django.shortcuts import render, redirect
 
-from .models import Student
+from .models import Student, Routine
 
 
 def home_views(request):
@@ -51,6 +51,5 @@ def attendance_views(request):
     return render(request, "student/attendance.html", )
 
 def routine(request):
-
-    return render(request, "student/routine.html", )
-
+    routines = Routine.objects.all().order_by('day', 'start_time')
+    return render(request, 'student/routine.html', {'routines': routines})
