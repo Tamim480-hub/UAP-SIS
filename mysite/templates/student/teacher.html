@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Teacher Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background: #f0f4f8;
+        margin: 0;
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+        color: #0d3b66;
+        margin-bottom: 40px;
+    }
+
+    /* Container */
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    /* Form Card */
+    .form-card {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        width: 350px;
+        margin-bottom: 30px;
+    }
+
+    .form-card h2 {
+        color: #0d3b66;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .form-card input, .form-card select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+    }
+
+    .form-card button {
+        width: 100%;
+        padding: 12px;
+        background: #0d3b66;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    .form-card button:hover {
+        background: #06335a;
+    }
+
+    /* Back Button */
+    .back-btn {
+        display: block;
+        width: 180px;
+        margin: 10px auto 30px;
+        text-align: center;
+        background: #28a745;
+        color: white;
+        padding: 10px 0;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+    .back-btn:hover { background: #1e7e34; }
+
+    /* Teacher Table */
+    table {
+        width: 90%;
+        margin: 0 auto 40px;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    th, td {
+        padding: 14px 10px;
+        text-align: center;
+    }
+    th {
+        background: #0d3b66;
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    tr:nth-child(even) { background: #f4f6f8; }
+
+    /* Action Buttons */
+    .btn {
+        padding: 6px 12px;
+        border-radius: 6px;
+        text-decoration: none;
+        color: white;
+        margin: 0 2px;
+        font-size: 0.85em;
+    }
+    .view { background: #007bff; }
+    .edit { background: #ffc107; color: #000; }
+    .delete { background: #dc3545; }
+    .btn:hover { opacity: 0.85; }
+
+    /* Responsive */
+    @media(max-width: 800px){
+        .container { flex-direction: column; align-items: center; }
+        table { width: 100%; font-size: 0.9em; }
+    }
+</style>
+</head>
+<body>
+
+<h1>Teacher Management System</h1>
+
+<div class="container">
+    <!-- Add Teacher Form -->
+    <div class="form-card">
+        <h2>Add Teacher</h2>
+        <form method="POST" action="{% url 'student:add_teacher' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="text" name="first_name" placeholder="First Name" required>
+            <input type="text" name="last_name" placeholder="Last Name">
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="text" name="phone" placeholder="Phone">
+            <input type="text" name="department" placeholder="Department">
+            <input type="date" name="hire_date" placeholder="Hire Date">
+            <input type="file" name="photo">
+            <button type="submit">Add Teacher</button>
+        </form>
+        <a href="{% url 'student:dashboard' %}" class="back-btn">⬅ Back to Dashboard</a>
+    </div>
+</div>
+
+<!-- Teacher List Table -->
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Department</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Actions</th>
+    </tr>
+    {% for teacher in teachers %}
+    <tr>
+        <td>{{ teacher.pk }}</td>
+        <td>{{ teacher.first_name }} {{ teacher.last_name }}</td>
+        <td>{{ teacher.department }}</td>
+        <td>{{ teacher.email }}</td>
+        <td>{{ teacher.phone }}</td>
+        <td>
+            <a href="{% url 'student:teacher_detail' teacher.pk %}" class="btn view">View</a>
+            <a href="{% url 'student:teacher_edit' teacher.pk %}" class="btn edit">Edit</a>
+            <a href="{% url 'student:teacher_delete' teacher.pk %}" class="btn delete" onclick="return confirm('Are you sure?')">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>
+
+

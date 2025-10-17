@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Teacher</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-danger text-white">
+            Delete Teacher
+        </div>
+        <div class="card-body">
+            <p>Are you sure you want to delete this teacher?</p>
+
+            <!-- Teacher Details -->
+            <ul class="list-group mb-3">
+                <li class="list-group-item"><strong>First Name:</strong> {{ teacher.first_name }}</li>
+                <li class="list-group-item"><strong>Last Name:</strong> {{ teacher.last_name }}</li>
+                <li class="list-group-item"><strong>Email:</strong> {{ teacher.email }}</li>
+                <li class="list-group-item"><strong>Phone:</strong> {{ teacher.phone }}</li>
+                <li class="list-group-item"><strong>Subject:</strong> {{ teacher.subject }}</li>
+                {% if teacher.photo %}
+                <li class="list-group-item">
+                    <strong>Photo:</strong><br>
+                    <img src="{{ teacher.photo.url }}" alt="Photo" class="img-thumbnail" width="150">
+                </li>
+                {% endif %}
+            </ul>
+
+            <!-- Delete Form -->
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                <a href="{% url 'student:teacher' %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

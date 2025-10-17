@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UAP Student Information System</title>
+    <style>
+        body {
+            background-color: lightblue;
+            font-size: 22px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            margin-top: 30px;
+        }
+        input {
+            font-size: 15px;
+            padding: 12px;
+            width: 250px;
+            margin: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        button {
+            font-size: 16px;
+            padding: 12px 70px;
+            border-radius: 12px;
+            border: none;
+            background-color: darkblue;
+            color: white;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: navy;
+        }
+        .message {
+            color: red;
+            font-size: 16px;
+            margin-top: 10px;
+            min-height: 20px;
+        }
+        h1 {
+            color: darkblue;
+            margin-bottom: 30px;
+        }
+        .forgot-password {
+            display: block;
+            font-size: 20px;
+            margin-top: 18px;
+            color: darkblue;
+            text-decoration: none;
+        }
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+          footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <img src="{% static 'image/ইউনিভার্সিটি_অব_এশিয়া_প্যাসিফিক_এর_লোগো.png' %}"
+                 width="120" height="120" alt="UAP Logo">
+        </h1>
+        <h1>UAP Student Information System</h1>
+
+        <form id="loginForm" action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="text" name="email" id="email" placeholder="Email" required><br>
+            <input type="password" name="password" id="password" placeholder="Password" required><br>
+            <div class="message" id="message"></div>
+            <button type="submit">Login</button>
+        </form>
+
+        <a href="about.html" class="forgot-password">Forgot Your Password?</a>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const password = document.getElementById('password').value;
+            const messageElement = document.getElementById('message');
+
+
+            if (password) {
+
+                window.location.href = "dashboard.html";
+            } else {
+                messageElement.textContent = "Please enter your password";
+            }
+        });
+    </script>
+<footer>
+    © Only Faculty members & CR allow | University of Asia Pacific
+</footer>
+
+</body>
+</html>
