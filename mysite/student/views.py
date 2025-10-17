@@ -34,7 +34,7 @@ def login_views(request):
 
 def search_views(request):
     query = request.GET.get('q', '').strip()
-    students = Student.objects.none()  # default empty QuerySet
+    students = Student.objects.none()  
 
     if query:
 
@@ -68,8 +68,8 @@ def add_teacher(request):
         email = request.POST['email']
         phone = request.POST.get('phone', '')
         department = request.POST.get('department', '')
-        hire_date = request.POST.get('hire_date', None)  # optional
-        photo = request.FILES.get('photo', None)  # optional
+        hire_date = request.POST.get('hire_date', None)  
+        photo = request.FILES.get('photo', None)  
 
         Teacher.objects.create(
             first_name=first_name,
@@ -87,7 +87,7 @@ def add_teacher(request):
 def teacher_detail(request, pk):
     teacher = get_object_or_404(Teacher, pk=pk)
 
-    # Field names and values
+  
     fields = []
     for field in teacher._meta.fields:
         if field.name != "id":
