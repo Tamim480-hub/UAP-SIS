@@ -17,14 +17,14 @@
         margin-bottom: 40px;
     }
 
-    /* Container */
+  
     .container {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
     }
 
-    /* Form Card */
+ 
     .form-card {
         background: white;
         padding: 25px;
@@ -63,7 +63,7 @@
         background: #06335a;
     }
 
-    /* Back Button */
+    
     .back-btn {
         display: block;
         width: 180px;
@@ -78,7 +78,7 @@
     }
     .back-btn:hover { background: #1e7e34; }
 
-    /* Teacher Table */
+   
     table {
         width: 90%;
         margin: 0 auto 40px;
@@ -126,7 +126,7 @@
 <h1>Teacher Management System</h1>
 
 <div class="container">
-    <!-- Add Teacher Form -->
+   
     <div class="form-card">
         <h2>Add Teacher</h2>
         <form method="POST" action="{% url 'student:add_teacher' %}" enctype="multipart/form-data">
@@ -144,7 +144,7 @@
     </div>
 </div>
 
-<!-- Teacher List Table -->
+
 <table>
     <tr>
         <th>ID</th>
