@@ -13,7 +13,7 @@ from .models import Attendance
 from .models import Student, Teacher, Routine, ExamRoutine, Profile
 
 
-# ------------------ HOME / LOGIN ------------------
+# ------------------ LOGIN ------------------
 def signin_views(request):
     if request.method == "POST":
         form = CustomAuthenticationForm(request, data=request.POST)
