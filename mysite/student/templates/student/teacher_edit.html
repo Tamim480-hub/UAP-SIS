@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Edit Teacher</title>
+<style>
+/* Basic styling */
+body { font-family: Arial, sans-serif; padding: 20px; background: #f0f4f8; }
+.card { max-width: 500px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; }
+h2 { text-align: center; color: #0d3b66; }
+.field { margin-bottom: 12px; }
+label { display: block; margin-bottom: 6px; color: #555; }
+input[type="text"], input[type="email"], input[type="date"], input[type="file"] {
+    width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc;
+}
+button { width: 100%; padding: 12px; background: #0d3b66; color: white; border: none; border-radius: 8px; cursor: pointer; }
+button:hover { background: #06335a; }
+a.back { display: block; margin-top: 10px; text-align: center; text-decoration: none; color: #0d3b66; }
+</style>
+</head>
+<body>
+<div class="card">
+    <h2>Edit Teacher</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="field">
+            <label>First Name</label>
+            <input type="text" name="first_name" value="{{ teacher.first_name }}" required>
+        </div>
+        <div class="field">
+            <label>Last Name</label>
+            <input type="text" name="last_name" value="{{ teacher.last_name }}">
+        </div>
+        <div class="field">
+            <label>Email</label>
+            <input type="email" name="email" value="{{ teacher.email }}" required>
+        </div>
+
+        <div class="field">
+            <label>Department</label>
+            <input type="text" name="department" value="{{ teacher.department }}">
+        </div>
+        <div class="field">
+            <label>Hire Date</label>
+            <input type="date" name="hire_date" value="{{ teacher.hire_date }}">
+        </div>
+        <div class="field">
+            <label>Photo</label>
+            <input type="file" name="photo">
+        </div>
+        <button type="submit">Update Teacher</button>
+    </form>
+    <a href="{% url 'student:teacher_list' %}" class="back">⬅ Back to Teacher List</a>
+</div>
+</body>
+</html>

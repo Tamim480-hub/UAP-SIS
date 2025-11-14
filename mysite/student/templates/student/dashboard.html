@@ -1,0 +1,305 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ---------- Global Reset ---------- */
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+            min-height: 100vh;
+            padding-bottom: 60px;
+            color: #333;
+        }
+
+header {
+    background: linear-gradient(135deg, #0066cc, #33ccff);
+    color: white;
+    padding: 20px 30px;
+    position: relative;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center; /* title centered */
+}
+
+header h1 {
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+
+        /* ---------- Profile Dropdown ---------- */
+      .profile-container {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+        .profile-container img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+            transition: 0.3s ease;
+        }
+
+        .profile-container:hover img {
+            border-color: #ffd700;
+        }
+
+        .profile-name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .arrow {
+            font-size: 12px;
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        /* Dropdown menu */
+        .dropdown-content {
+            position: absolute;
+            top: 65px;
+            right: 0;
+            background: white;
+            min-width: 200px;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .dropdown-content.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-content .profile-info {
+            padding: 10px 15px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .dropdown-content .profile-info .name {
+            font-weight: 600;
+            color: #222;
+        }
+
+        .dropdown-content .profile-info .email {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: background 0.25s ease;
+        }
+
+        .dropdown-content a:hover {
+            background: #f0f7ff;
+            color: #0077ff;
+        }
+
+        /* ---------- Container ---------- */
+        .container {
+            width: 85%;
+            max-width: 950px;
+            margin: 60px auto;
+            background: rgba(255,255,255,0.95);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #0077ff;
+            margin: 20px auto;
+            display: block;
+        }
+
+        /* ---------- Search Section ---------- */
+        .search-section {
+            background: rgba(255,255,255,0.3);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 30px 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border: 2px solid rgba(255,255,255,0.4);
+        }
+
+        .search-section h2 {
+            font-size: 1.6rem;
+            color: #004c99;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .search-bar input[type="text"] {
+            padding: 14px 18px;
+            width: 320px;
+            font-size: 16px;
+            border-radius: 50px;
+            border: 2px solid #0077ff;
+            outline: none;
+            background: #f8faff;
+        }
+
+        .search-bar button {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .search-bar button:hover {
+            background: linear-gradient(135deg, #ff6a3d, #ffb27a);
+        }
+
+        /* ---------- Dashboard Buttons ---------- */
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #0077ff, #0052cc);
+            color: white;
+            padding: 14px 30px;
+            margin: 14px;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #0066e6, #003c99);
+        }
+
+        /* ---------- Footer ---------- */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding: 18px;
+            background: linear-gradient(135deg, #0066cc, #33ccff);
+            color: white;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .search-bar input[type="text"] { width: 240px; }
+            header h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🎓 Student Dashboard</h1>
+    <div class="profile-container" id="profile-btn">
+      {% if user.profile.profile_image %}
+    <img src="{{ user.profile.profile_image.url }}" alt="Profile">
+{% else %}
+    <img src="{% static 'student/default_profile.png' %}" alt="Default Profile">
+{% endif %}
+
+        <span class="profile-name">{{ user.first_name }}</span>
+        <span class="arrow" id="arrow">▼</span>
+
+        <div class="dropdown-content" id="dropdown">
+            <div class="profile-info">
+                <p class="name">{{ user.first_name }} {{ user.last_name }}</p>
+                <p class="email">{{ user.email }}</p>
+            </div>
+            <a href="{% url 'student:profile' %}">Profile</a>
+<a href="{% url 'student:logout' %}" style="color: red; font-weight: bold;">Logout</a>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+
+
+
+    <!-- Search Section -->
+    <div class="search-section">
+        <h2>🔍 Search Student Record</h2>
+        <form method="GET" action="{% url 'student:search' %}" class="search-bar">
+            <input type="text" name="q" placeholder="Enter Registration Number" value="{{ query }}">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <!-- Dashboard Buttons -->
+    <a href="{% url 'student:attendance' %}" class="btn">📑 Attendance Sheet</a>
+    <a href="{% url 'student:routine' %}" class="btn">📅 Routine System</a>
+    <a href="{% url 'student:exam_routine' %}" class="btn">🧾 Exam Routine</a>
+    <a href="{% url 'student:teacher_list' %}" class="btn">👨‍🏫 Teacher Details</a>
+
+</div>
+
+<footer>
+    © registrar@uap-bd.edu | University of Asia Pacific
+</footer>
+
+<script>
+const profileBtn = document.getElementById('profile-btn');
+const dropdown = document.getElementById('dropdown');
+const arrow = document.getElementById('arrow');
+
+profileBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    dropdown.classList.toggle('show');
+    arrow.style.transform = dropdown.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)';
+});
+
+document.addEventListener('click', (e) => {
+    if (!profileBtn.contains(e.target)) {
+        dropdown.classList.remove('show');
+        arrow.style.transform = 'rotate(0deg)';
+    }
+});
+</script>
+
+</body>
+</html>

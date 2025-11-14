@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'student',
 ]
+AUTH_USER_MODEL = 'student.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -117,10 +118,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-import os
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    BASE_DIR / "static",
 ]
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Authentication settings

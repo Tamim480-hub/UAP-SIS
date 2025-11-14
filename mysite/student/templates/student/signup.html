@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UAP | Sign Up</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ---------- Global Reset ---------- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #b3d9ff, #e6f2ff);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        /* ---------- Container ---------- */
+        .signup-container {
+            width: 450px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 45px 40px;
+            border-radius: 25px;
+            box-shadow: 0 8px 30px rgba(0, 0, 70, 0.2);
+            text-align: center;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ---------- Logo ---------- */
+        .logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        /* ---------- Heading ---------- */
+        h2 {
+            color: #002b80;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+        }
+
+        /* ---------- Input Fields ---------- */
+        label {
+            display: block;
+            text-align: left;
+            margin-bottom: 6px;
+            color: #0047b3;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            border: 2px solid #0077ff;
+            background: #f8faff;
+            font-size: 15px;
+            transition: 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #0047b3;
+            outline: none;
+            box-shadow: 0 0 6px rgba(0, 71, 179, 0.3);
+        }
+
+        /* ---------- Button ---------- */
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #0047b3, #001f5c);
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #002b80, #001847);
+        }
+
+        /* ---------- Error & Message ---------- */
+        .errorlist {
+            color: #d32f2f;
+            margin: -8px 0 10px 0;
+            padding-left: 0;
+            list-style: none;
+            font-size: 14px;
+        }
+
+        .message {
+            color: green;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        /* ---------- Login Link ---------- */
+        p.login-link {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 15px;
+        }
+
+        p.login-link a {
+            color: #0047b3;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        p.login-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* ---------- Footer ---------- */
+        footer {
+            text-align: center;
+            margin-top: 45px;
+            font-size: 14px;
+            color: #002b80;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <!-- UAP Logo -->
+
+
+        <h2>UAP Student Registration</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p class="message">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <label for="id_first_name">First Name</label>
+            {{ form.first_name }}
+            {{ form.first_name.errors }}
+
+            <label for="id_last_name">Last Name</label>
+            {{ form.last_name }}
+            {{ form.last_name.errors }}
+
+            <label for="id_username">Username</label>
+            {{ form.username }}
+            {{ form.username.errors }}
+
+            <label for="id_email">Email</label>
+            {{ form.email }}
+            {{ form.email.errors }}
+
+            <label for="id_password1">Password</label>
+            {{ form.password1 }}
+            {{ form.password1.errors }}
+
+            <label for="id_password2">Confirm Password</label>
+            {{ form.password2 }}
+            {{ form.password2.errors }}
+
+            <button type="submit">Create Account</button>
+        </form>
+
+        <p class="login-link">
+            Already have an account?
+            <a href="{% url 'student:signin' %}">Login</a>
+        </p>
+    </div>
+
+    <footer>
+        © 2025 University of Asia Pacific | Student Portal
+    </footer>
+</body>
+</html>

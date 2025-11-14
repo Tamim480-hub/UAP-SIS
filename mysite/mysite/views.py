@@ -3,7 +3,7 @@ from django.shortcuts import render
 
 # Home Page View
 def home_views(request):
-    return render(request, "home.html")
+    return render(request, "signin.html")
 
 
 # Log In Page View

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teacher Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    :root{
+        --primary: #0d3b66;
+        --primary-dark: #06335a;
+        --accent: #28a745;
+        --muted: #6b7280;
+        --card-bg: #ffffff;
+        --page-bg: #f0f4f8;
+        --radius: 12px;
+    }
+    *{box-sizing:border-box}
+    body {
+        font-family: 'Inter', sans-serif;
+        background: var(--page-bg);
+        margin: 0;
+        padding: 28px;
+        color: #1f2937;
+    }
+    h1 {
+        text-align: center;
+        color: var(--primary);
+        margin: 0 0 28px 0;
+        font-size: 1.75rem;
+    }
+
+    /* Layout */
+    .wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+    .container {
+        display: grid;
+        grid-template-columns: 360px 1fr;
+        gap: 24px;
+        align-items: start;
+    }
+
+    /* Card */
+    .card {
+        background: var(--card-bg);
+        padding: 20px;
+        border-radius: var(--radius);
+        box-shadow: 0 6px 18px rgba(8,15,23,0.06);
+    }
+
+    /* Form */
+    .form-card h2 {
+        color: var(--primary);
+        margin: 0 0 12px 0;
+        text-align: center;
+    }
+    .field {
+        margin-bottom: 12px;
+    }
+    label{display:block;font-size:0.85rem;color:var(--muted);margin-bottom:6px}
+    input[type="text"], input[type="email"], input[type="date"], select {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+        font-size: 0.95rem;
+    }
+    input[type="file"]{font-size:0.9rem}
+
+    .btn-primary {
+        width: 100%;
+        padding: 12px;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 600;
+        margin-top: 6px;
+    }
+    .btn-primary:hover{background:var(--primary-dark)}
+
+    .back-btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        background: var(--accent);
+        color: white;
+        padding: 10px 0;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        margin-top: 10px;
+    }
+
+    /* Image preview */
+    .img-preview{
+        display:flex;align-items:center;gap:12px;margin-bottom:12px
+    }
+    .img-preview img{width:72px;height:72px;border-radius:10px;object-fit:cover;border:1px solid #e6eef8}
+    .img-note{font-size:0.85rem;color:var(--muted)}
+
+    /* Table */
+    table{
+        width:100%;
+        border-collapse:collapse;
+        font-size:0.95rem;
+        overflow:hidden;
+    }
+    thead th{
+        text-align:left;padding:14px 12px;background:var(--primary);color:#fff;text-transform:uppercase;font-size:0.75rem;letter-spacing:0.06em
+    }
+    tbody tr{background:white;border-bottom:1px solid #f3f4f6}
+    td{padding:12px}
+
+    .avatar{width:48px;height:48px;border-radius:8px;object-fit:cover;border:1px solid #eef2ff}
+    .name-cell{display:flex;align-items:center;gap:12px}
+    .small{font-size:0.85rem;color:var(--muted)}
+
+    /* Action buttons */
+    .actions a{display:inline-block;padding:6px 10px;border-radius:8px;text-decoration:none;font-size:0.85rem;margin-right:6px}
+    .view{background:#007bff;color:#fff}
+    .edit{background:#ffc107;color:#000}
+    .delete{background:#dc3545;color:#fff}
+
+    /* Empty state */
+    .empty{padding:30px;text-align:center;color:var(--muted)}
+
+    /* Responsive */
+    @media (max-width: 900px){
+        .container{grid-template-columns: 1fr}
+    }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <h1>Teacher Management System</h1>
+    <div class="container">
+        <!-- Left: Form -->
+        <div class="card form-card">
+            <h2>Add Teacher</h2>
+<form method="POST" action="{% url 'student:add_teacher' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="field">
+                    <label for="first_name">First name</label>
+                    <input id="first_name" name="first_name" type="text" placeholder="First Name" required>
+                </div>
+
+                <div class="field">
+                    <label for="last_name">Last name</label>
+                    <input id="last_name" name="last_name" type="text" placeholder="Last Name">
+                </div>
+
+                <div class="field">
+                    <label for="email">Email</label>
+                    <input id="email" name="email" type="email" placeholder="Email" required>
+                </div>
+
+                <div class="field">
+                    <label for="phone">Phone</label>
+                    <input id="phone" name="phone" type="text" placeholder="Phone">
+                </div>
+
+                <div class="field">
+                    <label for="department">Department</label>
+                    <input id="department" name="department" type="text" placeholder="Department">
+                </div>
+
+                <div class="field">
+                    <label for="hire_date">Hire date</label>
+                    <input id="hire_date" name="hire_date" type="date">
+                </div>
+
+                <div class="field">
+                    <label for="photo">Photo</label>
+                    <input id="photoInput" name="photo" type="file" accept="image/*">
+                </div>
+
+                <div class="img-preview" id="previewWrap" style="display:none">
+                    <img id="previewImg" src="#" alt="preview">
+                    <div>
+                        <div class="img-note">Preview of selected photo</div>
+                        <div class="img-note">(will be uploaded when you submit)</div>
+                    </div>
+                </div>
+
+                <button class="btn-primary" type="submit">Add Teacher</button>
+               <a href="{% url 'student:dashboard' %}" class="back-btn">⬅ Back to Dashboard</a>
+
+            </form>
+        </div>
+
+
+        <!-- Right: Table -->
+        <div class="card">
+            <h2 style="margin:0 0 12px 0;color:var(--primary)">Teachers</h2>
+
+            {% if teachers.exists %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th style="text-align:right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for teacher in teachers %}
+                    <tr>
+                        <td>{{ teacher.pk }}</td>
+                        <td>
+                            <div class="name-cell">
+                                {% if teacher.photo %}
+                                    <img class="avatar" src="{{ teacher.photo.url }}" alt="{{ teacher.first_name }}">
+                                {% else %}
+                                    <img class="avatar" src="https://via.placeholder.com/48x48?text=No" alt="No Photo">
+                                {% endif %}
+                                <div>
+                                    <div style="font-weight:600">{{ teacher.first_name }} {{ teacher.last_name }}</div>
+                                    <div class="small">Joined: {% if teacher.hire_date %}{{ teacher.hire_date }}{% else %}—{% endif %}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{ teacher.department|default:"—" }}</td>
+                        <td>{{ teacher.email }}</td>
+                        <td>{{ teacher.phone|default:"—" }}</td>
+                        <td style="text-align:right" class="actions">
+                            <a href="{% url 'student:teacher_detail' teacher.pk %}" class="view">View</a>
+                           <a href="{% url 'student:edit_teacher' teacher.pk %}" class="edit">Edit</a>
+
+                           <a href="{% url 'student:teacher_delete' teacher.pk %}" class="delete" onclick="return confirm('Are you sure?')">Delete</a>
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                <div class="empty">No teachers found. Add your first teacher using the form on the left.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+// Image preview
+const photoInput = document.getElementById('photoInput');
+const previewWrap = document.getElementById('previewWrap');
+const previewImg = document.getElementById('previewImg');
+
+photoInput.addEventListener('change', function(e){
+    const file = e.target.files[0];
+    if(!file) { previewWrap.style.display = 'none'; return }
+    const reader = new FileReader();
+    reader.onload = function(ev){
+        previewImg.src = ev.target.result;
+        previewWrap.style.display = 'flex';
+    }
+    reader.readAsDataURL(file);
+});
+</script>
+</body>
+</html>

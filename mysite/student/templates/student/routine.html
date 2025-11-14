@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Routine Upload</title>
+    <style>
+        /* ---------- Global Reset ---------- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background: #f5f7fa; padding: 30px; }
+
+        .container { max-width: 700px; margin: auto; background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
+
+        h2 { color: #333; margin-bottom: 20px; text-align: center; }
+
+        form { margin-bottom: 40px; }
+        form input[type="text"], form input[type="file"] { width: 100%; padding: 10px 15px; border-radius: 8px; border: 1px solid #ccc; margin-bottom: 15px; }
+        form button { padding: 10px 20px; background: #4facfe; background: linear-gradient(to right, #00f2fe, #4facfe); color: #fff; border: none; border-radius: 10px; cursor: pointer; transition: 0.3s; }
+        form button:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
+
+        .routine-list h3 { margin-bottom: 15px; color: #555; }
+
+        .routine-card {
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: linear-gradient(135deg, #f6d365, #fda085);
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .routine-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .routine-card a.view-btn {
+            background: rgba(255,255,255,0.8);
+            color: #333;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            margin-right: 10px;
+        }
+        .routine-card a.view-btn:hover { background: rgba(255,255,255,1); }
+
+        .routine-card button.delete-btn {
+            background: rgba(255, 99, 71, 0.5);
+            border: none;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .routine-card button.delete-btn:hover { background: rgba(255, 99, 71, 0.8); }
+
+        .dashboard-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #4facfe;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .dashboard-link:hover { text-decoration: underline; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="/dashboard/" class="dashboard-link">← Go to Dashboard</a>
+    <h2>Upload Routine PDF</h2>
+
+    <!-- Upload Form -->
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.title.label_tag }}
+        {{ form.title }}
+        {{ form.pdf.label_tag }}
+        {{ form.pdf }}
+        <button type="submit">Upload</button>
+    </form>
+
+    <!-- Uploaded Routines -->
+    <div class="routine-list">
+        <h3>Uploaded Routines</h3>
+        {% for r in routines %}
+            <div class="routine-card">
+                <div>
+                    <div><strong>{{ r.title }}</strong></div>
+                    <small>{{ r.uploaded_at|date:"Y-m-d H:i" }}</small>
+                </div>
+                <div>
+                    {% if r.pdf %}
+                        <a href="{{ r.pdf.url }}" target="_blank" class="view-btn">View PDF</a>
+                    {% endif %}
+                    <form action="{% url 'student:delete_routine' r.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-btn">Delete</button>
+                    </form>
+                </div>
+            </div>
+        {% empty %}
+            <p>No routines uploaded yet.</p>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>

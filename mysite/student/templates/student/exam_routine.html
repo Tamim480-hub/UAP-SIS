@@ -1,0 +1,145 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard - Exam Routine</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ---------- Header ---------- */
+        header {
+            background: linear-gradient(135deg, #0066cc, #33ccff);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: sticky;
+            top: 0;
+        }
+
+        header h1 {
+            margin: 0;
+            text-align: center;
+            flex: 1;
+        }
+
+        .profile-container {
+            position: absolute;
+            right: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-container img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* ---------- Container ---------- */
+        .container {
+            width: 90%;
+            max-width: 950px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        /* ---------- Buttons ---------- */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px 0;
+            background: linear-gradient(135deg, #0077ff, #0052cc);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .btn:hover { background: linear-gradient(135deg, #0052cc, #003399); }
+
+        /* ---------- Exam Routine Table ---------- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        table th {
+            background: #0066cc;
+            color: white;
+        }
+
+        form.inline-form { display: inline; }
+        form button { cursor: pointer; }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🎓 Student Dashboard - Exam Routine</h1>
+
+</header>
+
+<div class="container">
+
+    <!-- Back to Dashboard -->
+    <a href="{% url 'student:dashboard' %}" class="btn">⬅ Back to Dashboard</a>
+
+    <hr>
+
+    <!-- Add Exam Routine -->
+    <h2>Add New Exam Routine</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Add Routine</button>
+    </form>
+
+    <!-- List of Exam Routines -->
+    <h2>Exam Routine List</h2>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>PDF</th>
+            <th>Action</th>
+        </tr>
+        {% for routine in routines %}
+        <tr>
+            <td>{{ routine.title }}</td>
+            <td><a href="{{ routine.pdf_file.url }}" target="_blank" class="btn">View PDF</a></td>
+            <td>
+               <form method="POST" action="{% url 'student:delete_exam_routine' routine.pk %}">
+                   {% csrf_token %}
+                   <button type="submit" class="btn" style="background:#cc0000;">Delete</button>
+               </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3">No routines available.</td></tr>
+        {% endfor %}
+    </table>
+</div>
+
+</body>
+</html>
+
+
