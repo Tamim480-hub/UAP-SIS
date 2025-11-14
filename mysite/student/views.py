@@ -156,7 +156,7 @@ def edit_teacher(request, pk):
         if request.FILES.get('photo'):
             teacher.photo = request.FILES.get('photo')
         teacher.save()
-        return redirect('student:teacher_list')  # Teacher list page
+        return redirect('student:teacher_list')  
 
 
     return render(request, 'student/teacher_edit.html', {'teacher': teacher})
@@ -205,7 +205,7 @@ def routine_view(request):
     if request.method == 'POST':
         if form.is_valid():
             form.save()
-            return redirect('student:routine')  # URL name must match urls.py
+            return redirect('student:routine')  
 
     context = {
         'form': form,
