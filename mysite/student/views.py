@@ -253,6 +253,6 @@ def delete_exam_routine(request, pk):
     routine = get_object_or_404(ExamRoutine, pk=pk)
     if request.method == "POST":
         routine.delete()
-        return redirect('student:exam_routine')  # redirect to exam routine list
+        return redirect('student:exam_routine') 
     return redirect('student:exam_routine')
 
