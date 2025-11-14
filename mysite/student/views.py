@@ -72,12 +72,12 @@ def search_views(request):
 
 
 def attendance(request):
-    students = Student.objects.all()  # সব student list
+    students = Student.objects.all()  
 
     if request.method == 'POST':
         student_id = request.POST.get('student_id')
         status_value = request.POST.get('attendance_1')
-        date_instance = timezone.now().date()  # আজকের তারিখ
+        date_instance = timezone.now().date()  
 
         student_instance = Student.objects.filter(id=student_id).first()
         if not student_instance:
